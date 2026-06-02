@@ -19,6 +19,7 @@ app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/tasks', tasksRouter);
 
+
 // Global Error Handler
 app.use((err, req, res, next) => {
   console.error(err);
