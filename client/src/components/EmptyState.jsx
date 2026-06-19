@@ -1,23 +1,30 @@
 import React from 'react';
-import { ClipboardList, CheckCircle } from 'lucide-react';
+import { CheckCircle, ClipboardList, Plus, Sparkles } from 'lucide-react';
 
 const EmptyState = ({ filter, onAddTask }) => {
   const isCompleted = filter === 'completed';
   const isPending = filter === 'pending';
 
   return (
-    <div className="flex flex-col items-center justify-center text-center p-8 bg-white border border-[#E0D9CF] rounded-xl min-h-[260px]">
-      {isCompleted ? (
-        <CheckCircle className="text-[#D97706] w-12 h-12 mb-4" />
-      ) : (
-        <ClipboardList className="text-[#D97706] w-12 h-12 mb-4" />
-      )}
+    <div className="flex min-h-[300px] flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-stone-300/80 bg-white/45 p-8 text-center">
+      <div className="relative mb-5">
+        <div className="absolute inset-0 rounded-full bg-[#d97706]/15 blur-xl" />
+        <div className="brand-mark relative flex h-16 w-16 items-center justify-center rounded-2xl text-[#92400e]">
+          {isCompleted ? (
+            <CheckCircle size={34} />
+          ) : isPending ? (
+            <Sparkles size={34} />
+          ) : (
+            <ClipboardList size={34} />
+          )}
+        </div>
+      </div>
 
-      <h3 className="text-sm font-semibold text-[#78716C] mb-1">
-        No tasks here
+      <h3 className="font-serif text-2xl text-[#1c1917]">
+        {isPending ? 'The queue is clear' : 'No tasks here'}
       </h3>
       
-      <p className="text-xs text-stone-400 max-w-[240px] mb-5 leading-normal">
+      <p className="mb-6 mt-2 max-w-[300px] text-sm leading-6 text-stone-500">
         {isCompleted 
           ? 'No completed tasks yet.' 
           : isPending 
@@ -28,8 +35,9 @@ const EmptyState = ({ filter, onAddTask }) => {
       {filter === 'all' && (
         <button
           onClick={onAddTask}
-          className="bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors cursor-pointer"
+          className="copper-button inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white transition active:scale-[0.98] cursor-pointer"
         >
+          <Plus size={16} />
           Add a Task
         </button>
       )}

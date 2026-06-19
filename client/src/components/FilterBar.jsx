@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTasks } from '../context/TaskContext';
+import { CheckCircle2, Circle, ListFilter } from 'lucide-react';
 
 const FilterBar = () => {
   const { filter, setFilter, tasks, pendingCount, completedCount } = useTasks();
@@ -7,23 +8,25 @@ const FilterBar = () => {
   const totalCount = tasks.length;
 
   const buttons = [
-    { id: 'all', label: 'All', count: totalCount },
-    { id: 'pending', label: 'Pending', count: pendingCount },
-    { id: 'completed', label: 'Completed', count: completedCount },
+    { id: 'all', label: 'All', count: totalCount, icon: ListFilter },
+    { id: 'pending', label: 'Pending', count: pendingCount, icon: Circle },
+    { id: 'completed', label: 'Completed', count: completedCount, icon: CheckCircle2 },
   ];
 
   return (
-    <div className="flex gap-2.5 mb-6">
+    <div className="flex flex-wrap gap-2">
       {buttons.map((btn) => {
         const isActive = filter === btn.id;
+        const Icon = btn.icon;
         return (
           <button
             key={btn.id}
             onClick={() => setFilter(btn.id)}
-            className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium border transition-colors cursor-pointer ${isActive ? 'bg-[#D97706] text-white border-[#D97706]' : 'bg-transparent text-[#78716C] border-[#D6CFC6] hover:bg-stone-50'}`}
+            className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-all cursor-pointer ${isActive ? 'border-[#c46205] bg-[#fff7ed] text-[#92400e] shadow-sm' : 'border-stone-300/70 bg-white/50 text-stone-500 hover:bg-white hover:text-stone-800'}`}
           >
+            <Icon size={14} />
             <span>{btn.label}</span>
-            <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${isActive ? 'bg-[#B45309] text-white' : 'bg-stone-100 text-stone-600'}`}>
+            <span className={`rounded-full px-1.5 py-0.5 text-[10px] ${isActive ? 'bg-[#92400e] text-white' : 'bg-stone-100 text-stone-600'}`}>
               {btn.count}
             </span>
           </button>

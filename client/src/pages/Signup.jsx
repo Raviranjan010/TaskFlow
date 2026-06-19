@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { Check, LockKeyhole, Mail, Sparkles, UserRound } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 
@@ -43,81 +44,127 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F0E8] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-[400px] bg-white border border-[#E0D9CF] rounded-xl p-10">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-semibold text-[#1C1917] m-0">Tascova</h1>
-          <p className="text-xs text-stone-400 font-medium tracking-wide mt-1">Your tasks, elevated.</p>
+    <div className="app-shell min-h-screen px-4 py-8 sm:px-6">
+      <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-6xl items-center gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="paper-panel w-full rounded-[1.5rem] p-6 sm:p-10">
+          <div className="mb-8">
+            <div className="brand-mark mb-5 flex h-12 w-12 items-center justify-center rounded-xl text-[#92400e] lg:hidden">
+              <Check size={26} strokeWidth={2.8} />
+            </div>
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#92400e]">Start fresh</p>
+            <h1 className="mt-2 font-serif text-4xl text-[#1c1917]">Create account</h1>
+            <p className="mt-2 text-sm text-stone-500">Build a workspace that keeps your plans clear and close.</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-stone-500">Full name</label>
+              <div className="relative">
+                <UserRound size={17} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="input-field h-12 w-full rounded-xl pl-10 pr-3 text-sm"
+                  placeholder="John Doe"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-stone-500">Email address</label>
+              <div className="relative">
+                <Mail size={17} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="input-field h-12 w-full rounded-xl pl-10 pr-3 text-sm"
+                  placeholder="you@example.com"
+                />
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-stone-500">Password</label>
+                <div className="relative">
+                  <LockKeyhole size={17} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="input-field h-12 w-full rounded-xl pl-10 pr-3 text-sm"
+                    placeholder="Password"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-stone-500">Confirm</label>
+                <div className="relative">
+                  <LockKeyhole size={17} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="input-field h-12 w-full rounded-xl pl-10 pr-3 text-sm"
+                    placeholder="Repeat"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {error && (
+              <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-[#B91C1C]">{error}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="copper-button flex h-12 w-full items-center justify-center rounded-xl text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-70 cursor-pointer"
+            >
+              {loading ? (
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              ) : (
+                'Create Account'
+              )}
+            </button>
+          </form>
+
+          <p className="mt-6 text-center text-sm text-[#78716C]">
+            Already have an account?{' '}
+            <Link to="/login" className="font-semibold text-[#D97706] hover:underline">
+              Sign In
+            </Link>
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-xs font-semibold text-[#78716C] tracking-wider mb-2">FULL NAME</label>
-            <input 
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full h-10 px-3 bg-white border border-[#D6CFC6] rounded-lg text-sm text-[#1C1917] focus:border-[#D97706] outline-none transition-colors"
-              placeholder="John Doe"
-            />
+        <section className="hidden lg:block">
+          <div className="mb-8 flex items-center gap-4">
+            <div className="brand-mark flex h-14 w-14 items-center justify-center rounded-xl text-[#92400e]">
+              <Check size={30} strokeWidth={2.8} />
+            </div>
+            <div>
+              <h2 className="font-serif text-5xl leading-none text-[#1c1917]">Tascova</h2>
+              <p className="mt-2 text-sm font-semibold uppercase tracking-[0.28em] text-[#92400e]">Plan with clarity</p>
+            </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-[#78716C] tracking-wider mb-2">EMAIL ADDRESS</label>
-            <input 
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full h-10 px-3 bg-white border border-[#D6CFC6] rounded-lg text-sm text-[#1C1917] focus:border-[#D97706] outline-none transition-colors"
-              placeholder="you@example.com"
-            />
+          <div className="ink-panel overflow-hidden rounded-[1.5rem] p-8 text-[#fffaf2]">
+            <Sparkles className="mb-8 text-[#fef3c7]" size={34} />
+            <p className="max-w-xl font-serif text-4xl leading-tight">
+              Your private task studio, shaped for small wins and quiet momentum.
+            </p>
+            <div className="mt-8 grid grid-cols-3 gap-3">
+              {['Clarity', 'Rhythm', 'Focus'].map((item) => (
+                <div key={item} className="rounded-xl border border-white/10 bg-white/[0.06] p-4 text-center text-sm font-semibold text-stone-200">
+                  {item}
+                </div>
+              ))}
+            </div>
           </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-[#78716C] tracking-wider mb-2">PASSWORD</label>
-            <input 
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full h-10 px-3 bg-white border border-[#D6CFC6] rounded-lg text-sm text-[#1C1917] focus:border-[#D97706] outline-none transition-colors"
-              placeholder="••••••••"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-[#78716C] tracking-wider mb-2">CONFIRM PASSWORD</label>
-            <input 
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full h-10 px-3 bg-white border border-[#D6CFC6] rounded-lg text-sm text-[#1C1917] focus:border-[#D97706] outline-none transition-colors"
-              placeholder="••••••••"
-            />
-          </div>
-
-          {error && (
-            <p className="text-xs font-medium text-[#B91C1C]">{error}</p>
-          )}
-
-          <button 
-            type="submit"
-            disabled={loading}
-            className="w-full h-10 bg-[#D97706] text-white rounded-lg text-sm font-medium hover:bg-[#B45309] transition-colors flex items-center justify-center cursor-pointer"
-          >
-            {loading ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            ) : (
-              'Create Account'
-            )}
-          </button>
-        </form>
-
-        <p className="text-center text-xs text-[#78716C] mt-6">
-          Already have an account?{' '}
-          <Link to="/login" className="text-[#D97706] hover:underline font-medium">
-            Sign In
-          </Link>
-        </p>
+        </section>
       </div>
     </div>
   );
